@@ -6,9 +6,10 @@ host_name.update(require('os').hostname());
 host_name = host_name.digest('hex').substr(0,8);
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-		var params = req.query || {};
-		if (!params.e || !params.i) {
+router.all('/', function(req, res, next) {
+		var params = (req.method == 'POST'? req.body : req.query) || {};
+		params.i = params.i || params.eventName;
+		if ((!params.e && (req.method == 'GET')) || !params.i) {
 			return res.jsonp({
 				type: 'error'
 			});
@@ -19,13 +20,17 @@ router.get('/', function(req, res, next) {
 				type: 'error'
 			});
 		}
-		var e = new Buffer(params.e, 'base64').toString('ascii');
-		try {
-			e = JSON.parse(e);
-		} catch (r) {
-			return res.jsonp({
-				type: 'invalid'
-			});
+		if (req.method != 'POST'){
+			var e = new Buffer(params.e, 'base64').toString('ascii');
+			try {
+				e = JSON.parse(e);
+			} catch (r) {
+				return res.jsonp({
+					type: 'invalid'
+				});
+			}
+		}else{
+			var e = params;
 		}
 		var date = new Date();
 		var day = String(date.getDate());
