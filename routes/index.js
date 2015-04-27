@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var host_name = crypto.createHash('sha1');
+var host_name = require('crypto').createHash('sha1');
 host_name.update(require('os').hostname());
-host_name = idHash.digest('hex').substr(0,8);
+host_name = host_name.digest('hex').substr(0,8);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
