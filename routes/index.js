@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var host_name = require('os').hostname();
+var host_name = crypto.createHash('sha1');
+host_name.update(require('os').hostname());
+host_name = idHash.digest('hex').substr(0,8);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -36,8 +38,10 @@ router.get('/', function(req, res, next) {
 			req.socket.remoteAddress ||
 			req.connection.socket.remoteAddress;
 		e['ua'] = req.headers['user-agent'];
-		e['ts'] = Math.floor((new Date().getTime()) / 1000);
-		fs.appendFile(host_name + '-' + hour + '-' + monthIndex + '-' + day + '-' + year + '--' + params.i, JSON.stringify(e), function(err) {
+		var now = new Date().getTime();
+		e['ts'] = Math.floor( now / 1000);
+		var f_name = 'bench.prod-i-' + host_name + '-' + params.i + '-' + hour + '00';
+		fs.appendFile(f_name, JSON.stringify(e), function(err) {
 		if (err) {
 
 		};
