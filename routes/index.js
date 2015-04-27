@@ -40,7 +40,7 @@ router.get('/', function(req, res, next) {
 		e['ua'] = req.headers['user-agent'];
 		var now = new Date().getTime();
 		e['ts'] = Math.floor( now / 1000);
-		var f_name = 'bench.prod-i-' + host_name + '-' + params.i + '-' + hour + '00';
+		var f_name = 'bench.prod-i-' + host_name + '-' + params.i + '-' + year + monthIndex + day + hour + '00.log';
 		fs.appendFile(f_name, JSON.stringify(e), function(err) {
 		if (err) {
 
