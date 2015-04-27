@@ -51,7 +51,8 @@ router.all('/', function(req, res, next) {
 
 		};
 	}); res.jsonp({
-		type: 'ok'
+		"type": 'ok',
+		"response_code":200
 	});
 });
 
