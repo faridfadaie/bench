@@ -1,5 +1,5 @@
 #!/bin/bash
-  for i in $( ls /var/app/current/*.log); do
+  for i in $( ls /log_files/*.log); do
     echo processing $i
     X=`echo $i | sed 's/^.*bench.prod-i-[^-]*-\([^-]*\)-[0-9]*\.log$/\1/'`
     /usr/local/bin/s3cmd put -r $i s3://bleepbench/$X/
