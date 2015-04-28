@@ -24,6 +24,7 @@ router.all('/', function(req, res, next) {
 			}
 			var i = params.i;
 		}
+		i = i.replace(/-/g, '_');
 		var re = /[^a-z0-9]/gi;
 		if (!re.test(i)) {
 			return res.jsonp({
