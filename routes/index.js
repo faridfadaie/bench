@@ -9,7 +9,7 @@ host_name = host_name.digest('hex').substr(0,8);
 router.all('/', function(req, res, next) {
 		if (req.method == 'POST'){
 			var params = req.body || {};
-			var i = (req.query || {})['i'] || params.eventName;
+			var i = params.eventName;
 			if (!params || !i){
 				return res.jsonp({
 					type: 'error'
