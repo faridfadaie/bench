@@ -4,6 +4,7 @@
     X=`echo $i | sed 's/^.*bench.prod-i-[^-]*-\([^-]*\)-[0-9]*\.log$/\1/'`
     D=`echo $i | sed 's/^.*bench.prod-i-[^-]*-[^-]*-\([0-9]*\)\.log$/\1/' | cut -c 1-8`
     H=`echo $i | sed 's/^.*bench.prod-i-[^-]*-[^-]*-\([0-9]*\)\.log$/\1/' | cut -c 9-10`
-    /usr/local/bin/s3cmd put -r $i s3://bleepbench/$X/$D/$H/
-    rm $i
+    gzip $i
+    /usr/local/bin/s3cmd put -r $i.gz s3://bleepbench/$X/$D/$H/
+    rm $i.gz
   done
