@@ -7,15 +7,25 @@ host_name = host_name.digest('hex').substr(0,8);
 
 /* GET home page. */
 router.all('/', function(req, res, next) {
-		var params = (req.method == 'POST'? req.body : req.query) || {};
-		params.i = params.i || params.eventName;
-		if ((!params.e && (req.method == 'GET')) || !params.i) {
-			return res.jsonp({
-				type: 'error'
-			});
+		if (req.method == 'POST'){
+			var params = req.body || {};
+			var i = (req.query || {})['i'] || params.eventName;
+			if (!params || !i){
+				return res.jsonp({
+					type: 'error'
+				});
+			}
+		}else{
+			var params = req.query || {};
+			if (!params.e || !params.i){
+				return res.jsonp({
+					type: 'error'
+				});
+			}
+			var i = params.i;
 		}
 		var re = /[^a-z0-9]/gi;
-		if (!re.test(params.i)) {
+		if (!re.test(i)) {
 			return res.jsonp({
 				type: 'error'
 			});
@@ -37,7 +47,7 @@ router.all('/', function(req, res, next) {
 		var monthIndex = String(date.getMonth());
 		var year = String(date.getFullYear());
 		var hour = String(date.getHours());
-		e['eventName'] = params.i;
+		e['eventName'] = i;
 		e['ip'] = req.headers['x-forwarded-for'] ||
 			req.connection.remoteAddress ||
 			req.socket.remoteAddress ||
@@ -45,7 +55,7 @@ router.all('/', function(req, res, next) {
 		e['ua'] = req.headers['user-agent'];
 		var now = new Date().getTime();
 		e['ts'] = Math.floor( now / 1000);
-		var f_name = 'bench.prod-i-' + host_name + '-' + params.i + '-' + year + monthIndex + day + hour + '00.log';
+		var f_name = 'bench.prod-i-' + host_name + '-' + i + '-' + year + monthIndex + day + hour + '00.log';
 		fs.appendFile(f_name, JSON.stringify(e), function(err) {
 		if (err) {
 
