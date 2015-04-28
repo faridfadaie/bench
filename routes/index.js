@@ -48,6 +48,9 @@ router.all('/', function(req, res, next) {
 		var monthIndex = String(date.getMonth());
 		var year = String(date.getFullYear());
 		var hour = String(date.getHours());
+		monthIndex = monthIndex.length == 1? ('0' + monthIndex) : monthIndex;
+		day = day.length == 1? ('0' + day) : day;
+		hour = hour.length == 1? ('0' + hour) : hour;
 		e['eventName'] = i;
 		e['ip'] = req.headers['x-forwarded-for'] ||
 			req.connection.remoteAddress ||
