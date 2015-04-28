@@ -45,7 +45,7 @@ router.all('/', function(req, res, next) {
 		}
 		var date = new Date();
 		var day = String(date.getDate());
-		var monthIndex = String(date.getMonth());
+		var monthIndex = String(date.getMonth() + 1);
 		var year = String(date.getFullYear());
 		var hour = String(date.getHours());
 		monthIndex = monthIndex.length == 1? ('0' + monthIndex) : monthIndex;
