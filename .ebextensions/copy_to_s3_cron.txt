@@ -2,6 +2,6 @@
   for i in $( ls /var/app/current/*.log); do
     echo processing $i
     X=`echo $i | sed 's/^.*bench.prod-i-[^-]*-\([^-]*\)-[0-9]*\.log$/\1/'`
-    s3cmd put -r $i s3://bleepbench/$X/
+    /usr/local/bin/s3cmd put -r $i s3://bleepbench/$X/
     rm $i
   done
