@@ -62,7 +62,6 @@ router.all('/', function(req, res, next) {
 				req.connection.socket.remoteAddress
 		};
 		var f_name = '/log_files/bench.prod-i-' + host_name + '-' + i + '-' + year + monthIndex + day + hour + '00.log';
-		console.log(JSON.stringify(meta) + '\t' + JSON.stringify(e) + '\n')
 		fs.appendFile(f_name, JSON.stringify(meta) + '\t' + JSON.stringify(e) + '\n', function(err) {
 		if (err) {
 
