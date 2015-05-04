@@ -52,15 +52,18 @@ router.all('/', function(req, res, next) {
 		day = day.length == 1? ('0' + day) : day;
 		hour = hour.length == 1? ('0' + hour) : hour;
 		e['eventName'] = i;
-		e['ip'] = req.headers['x-forwarded-for'] ||
-			req.connection.remoteAddress ||
-			req.socket.remoteAddress ||
-			req.connection.socket.remoteAddress;
-		e['ua'] = req.headers['user-agent'];
 		var now = new Date().getTime();
-		e['ts'] = Math.floor( now / 1000);
+		var meta = {
+			ua : req.headers['user-agent'],
+			ts : Math.floor( now / 1000),
+			ip : req.headers['x-forwarded-for'] ||
+				req.connection.remoteAddress ||
+				req.socket.remoteAddress ||
+				req.connection.socket.remoteAddress
+		};
 		var f_name = '/log_files/bench.prod-i-' + host_name + '-' + i + '-' + year + monthIndex + day + hour + '00.log';
-		fs.appendFile(f_name, JSON.stringify(e), function(err) {
+		console.log(JSON.stringify(meta) + '\t' + JSON.stringify(e) + '\n')
+		fs.appendFile(f_name, JSON.stringify(meta) + '\t' + JSON.stringify(e) + '\n', function(err) {
 		if (err) {
 
 		};
